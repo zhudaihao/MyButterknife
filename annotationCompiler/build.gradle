@@ -1,0 +1,31 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //注册我们的注解处理器
+//    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    // As-3.4.1 + gradle5.1.1-all + auto-service:1.0-rc4
+//    annotationProcessor'com.google.auto.service:auto-service:1.0-rc4'
+//    compileOnly'com.google.auto.service:auto-service:1.0-rc4'
+
+    //注解处理器
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+    //自动生成service,省去了配置resources/META-INF/services,配合@AutoService(Processor.class)使用
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
+
+    //是square推出的开源java代码生成框架，提供Java Api生成.java源文件
+    implementation 'com.squareup:javapoet:1.11.1'
+
+
+    implementation project(path: ':annotations')
+}
+
+//指定编译的编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
